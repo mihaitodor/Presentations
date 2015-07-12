@@ -1,5 +1,5 @@
 /*
-This example aims to demonstrate the benefit of specializing the non-member begin() and end() functions for a custom type
+This example aims to demonstrate the benefit of specializing the non-member begin() and end() functions for a custom type.
 
 Code inspired from this tutorial: http://mbevin.wordpress.com/2012/11/14/range-based-for/
 

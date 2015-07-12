@@ -1,9 +1,9 @@
 /*
 Please read the TemplateFactoryWithTypeDetection example first!
 
-In this example, I will illustrate a more advanced conditional object initialization technique
+In this example, I will illustrate a more advanced conditional object initialization technique.
 
-THe code requires the "Expression SFINAE" feature, which has been added recently to most compilers (I think)
+The code requires the "Expression SFINAE" feature, which has been added recently to most compilers (I think).
 
 This code will attempt to detect if the object which needs to be initialized has a method called "Init" and, if yes, execute it.
 

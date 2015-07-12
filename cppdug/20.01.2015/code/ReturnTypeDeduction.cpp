@@ -1,5 +1,5 @@
 /*
-This example aims to demonstrate the benefit of having return type deduction and the C++11 style trailing return type
+This example aims to demonstrate the benefit of having return type deduction and the C++11 style trailing return type.
 */
 #include <iostream>
 #include <typeinfo>
