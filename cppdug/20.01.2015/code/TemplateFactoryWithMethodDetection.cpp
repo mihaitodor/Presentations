@@ -104,4 +104,6 @@ int main()
 
 	std::cout << "Constructing object without initializer." << std::endl;
 	auto objWithoutInitializer = ObjectFactory<SimpleObject>();
+    
+    return 0;
 }
