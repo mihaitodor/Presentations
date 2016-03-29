@@ -1,2 +1,2 @@
-Dublin C/C++ User Group
+# Dublin C/C++ User Group
 www.meetup.com/cppdug/
