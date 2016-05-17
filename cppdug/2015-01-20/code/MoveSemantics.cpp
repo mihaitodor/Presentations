@@ -3,6 +3,7 @@ This example aims to demonstrate the power of move semantics.
 
 For an in depth explanation, see this blog post:
 http://blogs.msdn.com/b/vcblog/archive/2009/02/03/rvalue-references-c-0x-features-in-vc10-part-2.aspx
+THe above link seems broken now (truncated content). The original material can be found here: web.archive.org/web/20151121050000/http://blogs.msdn.com/b/vcblog/archive/2009/02/03/rvalue-references-c-0x-features-in-vc10-part-2.aspx
 
 More reading material about RVO and NRVO:
 http://blog.knatten.org/2011/08/26/dont-be-afraid-of-returning-by-value-know-the-return-value-optimization/
