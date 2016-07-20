@@ -23,12 +23,12 @@ public:
 
 	AdminNode(const std::string &name): name_(name)
 	{
-		std::cout << name_ << " admin has been created!" << std::endl;
+		std::cout << name_ << " admin has been created!\n";
 	}
 
 	~AdminNode()
 	{
-		std::cout << "Destroying admin node: " << name_ << std::endl;
+		std::cout << "Destroying admin node: " << name_ << '\n';
 	}
 
 	void AddChild(const std::string name)
@@ -71,12 +71,12 @@ public:
 	//note that we construct an std::weak_ptr from an std::shared_ptr instance
 	ChildNode(const std::string &name, const std::shared_ptr<AdminNode> admin): name_(name), admin_(admin)
 	{
-		std::cout << name_ << " child has been created!" << std::endl;
+		std::cout << name_ << " child has been created!\n";
 	}
 
 	~ChildNode()
 	{
-		std::cout << "Destroying child: " << name_ << std::endl;
+		std::cout << "Destroying child: " << name_ << '\n';
 	}
 
 	AdminNode::ChildrenSizeType GetSiblingCount()
@@ -88,7 +88,7 @@ public:
 		}
 
 		//note the call to lock! This creates a new std::shared_ptr instance that shares ownership of the managed object.
-		//std::cout << typeid(admin_.lock()).name() << std::endl;
+		//std::cout << typeid(admin_.lock()).name() << '\n';
 		return admin_.lock()->GetChildCount();
 	}
 
@@ -109,11 +109,11 @@ class Root
 public:
 	Root()
 	{
-		std::cout << "A root node has been spawned!" << std::endl;
+		std::cout << "A root node has been spawned!\n";
 	}
 	~Root()
 	{
-		std::cout << "Destroying root node!" << std::endl;
+		std::cout << "Destroying root node!\n";
 	}
 
 	void AddAdmin(const std::string name)
@@ -144,7 +144,7 @@ void DeleteRoot(std::unique_ptr<Root> &&root)
 
 	if (root == nullptr)
 	{
-		std::cout << "Yes, the root node has been disposed." << std::endl;
+		std::cout << "Yes, the root node has been disposed.\n";
 	}
 }
 
@@ -169,7 +169,7 @@ int main()
 	//Can anyone guess how the output will change if I uncomment this line?
 	//auto firstChildOfFirstAdmin = root->GetFirstAdmin()->GetFirstChild();
 
-	std::cout << "Number of siblings of the first child of the first admin: " << root->GetFirstAdmin()->GetFirstChild()->GetSiblingCount() << std::endl;
+	std::cout << "Number of siblings of the first child of the first admin: " << root->GetFirstAdmin()->GetFirstChild()->GetSiblingCount() << '\n';
 
 	//Move the root node!
 	//DeleteRoot(root);//won't work!
@@ -177,7 +177,7 @@ int main()
 	//the local root object now lies in a "valid but unspecified state". Calling std::move on an object documents the fact that we don't intend to reuse its value again
 	//More details here: http://stackoverflow.com/questions/9168823/reusing-a-moved-container
 
-	std::cout << "All created nodes have been automagically disposed during the DeleteRoot call." << std::endl;
+	std::cout << "All created nodes have been automagically disposed during the DeleteRoot call.\n";
 
 	return 0;
 }

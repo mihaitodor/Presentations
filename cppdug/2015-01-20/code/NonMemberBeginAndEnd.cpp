@@ -19,7 +19,7 @@ public:
 
 	Node (const Node &input) : m_data(input.m_data), m_next(input.m_next)
 	{
-		std::cout << "Oh noes, a copy has been made!" << std::endl;
+		std::cout << "Oh noes, a copy has been made!\n";
 	}
 
 	std::shared_ptr<Node> GetNext() const
@@ -29,7 +29,7 @@ public:
 
 	void PrintData()
 	{
-		std::cout << m_data << std::endl;
+		std::cout << m_data << '\n';
 	}
 
 private:
@@ -126,10 +126,10 @@ int main()
 	stack.Push(2);
 	stack.Push(3);
 
-	std::cout << "Pop the first element" << std::endl;
+	std::cout << "Pop the first element\n";
 	stack.Pop()->PrintData();
 
-	std::cout << "Walk the stack" << std::endl;
+	std::cout << "Walk the stack\n";
 	for (auto &node : stack)
 	{
 		node.PrintData();//call mutable function OK
@@ -137,7 +137,7 @@ int main()
 
 	const auto &constStack = stack;
 
-	std::cout << "Walk the stack via const reference" << std::endl;
+	std::cout << "Walk the stack via const reference\n";
 	for (auto &node : constStack)
 	{
 		node.PrintData();//call mutable function still OK?...

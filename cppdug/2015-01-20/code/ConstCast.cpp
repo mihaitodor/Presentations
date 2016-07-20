@@ -16,7 +16,7 @@ public:
 	
 	const std::string &Test() const
 	{
-		std::cout << name_ << std::endl;
+		std::cout << name_ << '\n';
 		return name_;
 	}
 

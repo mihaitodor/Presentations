@@ -10,12 +10,12 @@ class Object
 public:
 	void Test()
 	{
-		std::cout << "Test" << std::endl;
+		std::cout << "Test\n";
 	}
 
 	void Test() const
 	{
-		std::cout << "Const Test" << std::endl;
+		std::cout << "Const Test\n";
 	}
 };
 
@@ -54,10 +54,10 @@ int main()
 	}
 
 	//Abuse example: std::vector::size() returns std::vector::size_type, not int! Same story for all STL containers.
-	std::cout << typeid(data.size()).name() << std::endl;
+	std::cout << typeid(data.size()).name() << '\n';
 	for (auto i = 0; i < data.size(); ++i)
 	{
-		std::cout << typeid(i).name() << std::endl;
+		std::cout << typeid(i).name() << '\n';
 	}
 	
 	return 0;

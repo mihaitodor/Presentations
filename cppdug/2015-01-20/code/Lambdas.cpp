@@ -33,22 +33,22 @@ void CaptureAll()
 {
 	int x = 42;
 
-	std::cout << "Capture all by value:" << std::endl;
+	std::cout << "Capture all by value:\n";
 	//by default, variables captured by value are non-modifiable, so the mutable specification is required
 	[=] () mutable
 	{
 		x = 3;
 	}();
 
-	std::cout << x << std::endl;
+	std::cout << x << '\n';
 
-	std::cout << "Capture all by reference:" << std::endl;
+	std::cout << "Capture all by reference:\n";
 	[&]
 	{
 		x = 3;
 	}();
 
-	std::cout << "x: " << x << std::endl;
+	std::cout << "x: " << x << '\n';
 }
 
 void SelectiveCaptureMixed()
@@ -57,7 +57,7 @@ void SelectiveCaptureMixed()
 	int y = 2;
 	int z = 3;
 
-	std::cout << "Capture x by value and y by reference:" << std::endl;
+	std::cout << "Capture x by value and y by reference:\n";
 	[x, &y] () mutable
 	{
 		y = x;
@@ -66,15 +66,15 @@ void SelectiveCaptureMixed()
 		//z = 42;
 	}();
 
-	std::cout << "x: " << x << std::endl;
-	std::cout << "y: " << y << std::endl;
+	std::cout << "x: " << x << '\n';
+	std::cout << "y: " << y << '\n';
 }
 
 void AutomaticReturnTypeDeduction()
 {
 	auto value = []{ return 42; }();
 
-	std::cout << "Deduced type is " << typeid(value).name() << std::endl;
+	std::cout << "Deduced type is " << typeid(value).name() << '\n';
 }
 
 void RecursiveLambda()

@@ -8,7 +8,7 @@ class Base
 public:
 	virtual void OverrideMe()
 	{
-		std::cout << "Base" << std::endl;
+		std::cout << "Base\n";
 	}
 };
 
@@ -17,7 +17,7 @@ class DerivedBase : public Base
 public:
 	void OverrideMe() final override//virtual specifier can be omitted
 	{
-		std::cout << "Derived base" << std::endl;
+		std::cout << "Derived base\n";
 	}
 };
 
@@ -36,7 +36,7 @@ class BadDerived : public Base
 public:
 	virtual void OverrideMe() const //override
 	{
-		std::cout << "Bad derived" << std::endl;
+		std::cout << "Bad derived\n";
 	}
 };
 

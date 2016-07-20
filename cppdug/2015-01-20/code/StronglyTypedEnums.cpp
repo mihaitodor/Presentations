@@ -14,11 +14,11 @@ public:
 
 	static void Test()
 	{
-		std::cout << Oranges << std::endl;//besides polluting the namespace, it implicitly converts to int
-		//std::cout << Options::All << std::endl;//enum class members don't provide direct conversions
+		std::cout << Oranges << '\n';//besides polluting the namespace, it implicitly converts to int
+		//std::cout << Options::All << '\n';//enum class members don't provide direct conversions
 		
 		auto all = static_cast<std::underlying_type<Options>::type>(Options::All);
-		std::cout << all << std::endl;
+		std::cout << all << '\n';
 	}
 
 	static void TestSwitchStatementWithEnum(Options input)
@@ -26,21 +26,21 @@ public:
 		switch (input)
 		{
 		case Options::One:
-			std::cout << "One" << std::endl;
+			std::cout << "One\n";
 			break;
 		case Options::All:
-			std::cout << "All" << std::endl;
+			std::cout << "All\n";
 			break;
 		//case None://class enum members will not pollute the namespace!
 		default:
-			std::cout << "None" << std::endl;
+			std::cout << "None\n";
 		}
 	}
 };
 
 static void Foo(int input)
 {
-	std::cout << input << std::endl;
+	std::cout << input << '\n';
 }
 
 int main()

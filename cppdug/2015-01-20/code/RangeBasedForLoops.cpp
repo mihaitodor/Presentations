@@ -10,28 +10,28 @@ class Object
 public:
 	Object()
 	{
-		std::cout << "Constructor" << std::endl;
+		std::cout << "Constructor\n";
 	}
 	
 	Object(const Object &input)
 	{
-		std::cout << "Oh noes, a copy has been made!" << std::endl;
+		std::cout << "Oh noes, a copy has been made!\n";
 	}
 	
 	
 	Object(Object &&input)
 	{
-		std::cout << "Move constructor" << std::endl;
+		std::cout << "Move constructor\n";
 	}
 
 	void Test()
 	{
-		std::cout << "Test" << std::endl;
+		std::cout << "Test\n";
 	}
 
 	void Test() const
 	{
-		std::cout << "Const test" << std::endl;
+		std::cout << "Const test\n";
 	}
 };
 
@@ -55,7 +55,7 @@ int main()
 
 	for (auto it = intVector.rbegin(); it != intVector.rend(); ++it)
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << '\n';
 	}
 	
 	//Or, if we have the regular bidirectional iterators (C++14):
@@ -63,7 +63,7 @@ int main()
 	//Looks like this GCC version doesn't have std::make_reverse_iterator :(
 	for (auto it = make_reverse_iterator(intVector.end()); it != make_reverse_iterator(intVector.begin()); ++it)
 	{
-		std::cout << *it << std::endl;
+		std::cout << *it << '\n';
 	}
 	*/
 	
@@ -72,7 +72,7 @@ int main()
 	//http://www.boost.org/doc/libs/1_55_0/libs/range/doc/html/range/reference/adaptors/reference/reversed.html
 	//for (const auto &value : boost::adaptors::reverse(intVector))
 	//{
-	//	std::cout << value << std::endl;
+	//	std::cout << value << '\n';
 	//}
 	*/
 	

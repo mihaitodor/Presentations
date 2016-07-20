@@ -40,11 +40,11 @@ int main()
 {
 	A a;
 	auto aData = ExtractData(a);//aData -> int
-	std::cout << typeid(aData).name() << std::endl;
+	std::cout << typeid(aData).name() << '\n';
 
 	B b;
 	auto bData = ExtractData(b);//bData -> float
-	std::cout << typeid(bData).name() << std::endl;
+	std::cout << typeid(bData).name() << '\n';
 	
 	return 0;
 }

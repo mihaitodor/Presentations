@@ -25,13 +25,13 @@ int main()
 {
 	Object<double> obj(3.14);
 	
-	std::cout << obj.MultiplyBy<int>(2) << std::endl;
+	std::cout << obj.MultiplyBy<int>(2) << '\n';
 	
 	/*
 	In this case, the return type of MultiplyBy cannot be deduced,
 	thus it falls back to the default template argument
 	*/
-	std::cout << obj.MultiplyBy(2) << std::endl;
+	std::cout << obj.MultiplyBy(2) << '\n';
 	
 	return 0;
 }

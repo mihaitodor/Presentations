@@ -19,29 +19,29 @@ class Object
 public:
 	Object()
 	{
-		std::cout << "Object constructor" << std::endl;
+		std::cout << "Object constructor\n";
 	}
 	
 	Object(const Object &obj)
 	{
-		std::cout << "Oh noes, a copy has been made!" << std::endl;
+		std::cout << "Oh noes, a copy has been made!\n";
 	}
 
 	Object &operator=(const Object &obj)
 	{
-		std::cout << "Oh noes, a copy assignment has been made!" << std::endl;
+		std::cout << "Oh noes, a copy assignment has been made!\n";
 		return *this;
 	}
 
 	//After this call, the input, obj, will end up in  an unspecified, but valid state
 	Object(Object &&obj)
 	{
-		std::cout << "A move has been made!" << std::endl;
+		std::cout << "A move has been made!\n";
 	}
 
 	Object &operator=(Object &&obj)
 	{
-		std::cout << "A move assignment has been made!" << std::endl;
+		std::cout << "A move assignment has been made!\n";
 		return *this;
 	}
 };

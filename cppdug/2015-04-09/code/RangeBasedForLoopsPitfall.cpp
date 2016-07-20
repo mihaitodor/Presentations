@@ -47,7 +47,7 @@ int main()
 	ResetGeneric(data2);
 	for (auto item : data2)
 	{
-		std::cout << item << std::endl;
+		std::cout << item << '\n';
 	}
 	*/
 	

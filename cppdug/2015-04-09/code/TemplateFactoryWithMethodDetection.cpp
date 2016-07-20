@@ -11,12 +11,12 @@ class Object
 public:
 	Object()
 	{
-		std::cout << "Object constructor." << std::endl;
+		std::cout << "Object constructor.\n";
 	}
 	//This method MUST be called after an Object instance has been constructed.
 	bool Init()
 	{
-		std::cout << "Performing object initialization." << std::endl;
+		std::cout << "Performing object initialization.\n";
 		return true;
 	}
 };
@@ -26,7 +26,7 @@ class SimpleObject
 public:
 	SimpleObject()
 	{
-		std::cout << "Simple object constructor." << std::endl;
+		std::cout << "Simple object constructor.\n";
 	}
 };
 
@@ -99,10 +99,10 @@ T ObjectFactory()
 
 int main()
 {
-	std::cout << "Constructing object with initializer." << std::endl;
+	std::cout << "Constructing object with initializer.\n";
 	auto obj = ObjectFactory<Object>();
 
-	std::cout << "Constructing object without initializer." << std::endl;
+	std::cout << "Constructing object without initializer.\n";
 	auto objWithoutInitializer = ObjectFactory<SimpleObject>();
     
     return 0;

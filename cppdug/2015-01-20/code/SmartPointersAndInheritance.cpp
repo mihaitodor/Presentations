@@ -69,7 +69,7 @@ void TestDynamicCast()
 	//Let's assume that we don't know the polymorphic type of base
 	auto badChild = std::static_pointer_cast<Child>(base);
 	assert(badChild != nullptr);//well, shoot, now child points to invalid memory and no exception was thrown!
-	std::cout << "Garbage data: " << badChild->GetData() << std::endl;
+	std::cout << "Garbage data: " << badChild->GetData() << '\n';
 
 	//std::dynamic_pointer_cast to the rescue!
 	auto child = std::dynamic_pointer_cast<Child>(base);
