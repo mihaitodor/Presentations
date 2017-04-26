@@ -176,18 +176,18 @@ library(dplyr)
 
 html_data <- read_html("http://www.goal.com/en-ie/results/premier-league/8?ICID=FX_TN_93")
 
-data <- html_data %>% html_nodes("table.match-table") %>% (function(mach_table) {
+data <- html_data %>% html_nodes("table.match-table") %>% (function(match_table) {
   # Use html_text(TRUE) to get rid of leading and trailing whitespace
-  date <- mach_table %>% html_nodes("th.comp-date") %>% html_text(TRUE)
+  date <- match_table %>% html_nodes("th.comp-date") %>% html_text(TRUE)
   
-  maches <- mach_table %>% html_nodes("tr.clickable") %>% (function(mach) {
-    list(home_team = mach %>% html_nodes("td.team > div.home > span") %>% html_text(TRUE),
-         away_team = mach %>% html_nodes("td.team > div.away > span") %>% html_text(TRUE),
-         score     = mach %>% html_nodes("td.vs > div") %>% html_text(TRUE)
+  matches <- match_table %>% html_nodes("tr.clickable") %>% (function(match) {
+    list(home_team = match %>% html_nodes("td.team > div.home > span") %>% html_text(TRUE),
+         away_team = match %>% html_nodes("td.team > div.away > span") %>% html_text(TRUE),
+         score     = match %>% html_nodes("td.vs > div") %>% html_text(TRUE)
     )
   })
   
-  list(date = date, maches = maches)
+  list(date = date, matches = matches)
 })
 
 glimpse(data)
