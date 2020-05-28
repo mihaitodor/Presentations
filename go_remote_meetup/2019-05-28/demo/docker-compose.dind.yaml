@@ -1,0 +1,71 @@
+version: "3.4"
+
+# Generic DinD container parameters
+x-dind-container: &dind-container
+  image: "docker:19.03.8-dind"
+  privileged: true
+  volumes:
+    - ./envoy:/etc/envoy
+  extra_hosts:
+    dev.local: "192.168.168.168"
+  environment:
+    DOCKER_TLS_CERTDIR: ""
+
+# Extra DinD container parameters for backends
+x-dind-container-backend: &dind-container-backend
+  ports:
+    - 2375 # Docker API
+    - 7777 # Sidecar UI
+    - 7778 # Envoy UI
+    - 9901 # Envoy Admin UI
+
+services:
+  ingress:
+    <<: *dind-container
+    container_name: ingress
+    hostname: ingress
+    ports:
+      - 2375:2375 # Docker API
+      - 7777:7777 # Sidecar UI
+      - 7778:7778 # Envoy UI
+      - 9901:9901 # Envoy Admin UI
+      - 8888:8888 # Ingress TCP access
+      - 10000:10000 # Ingress HTTP access
+
+  backend1:
+    <<: *dind-container
+    <<: *dind-container-backend
+    container_name: backend1
+    hostname: backend1
+
+  backend2:
+    <<: *dind-container
+    <<: *dind-container-backend
+    container_name: backend2
+    hostname: backend2
+
+  backend3:
+    <<: *dind-container
+    <<: *dind-container-backend
+    container_name: backend3
+    hostname: backend3
+  # backend4:
+  #   <<: *dind-container
+  #   <<: *dind-container-backend
+  #   container_name: backend4
+  # backend5:
+  #   <<: *dind-container
+  #   <<: *dind-container-backend
+  #   container_name: backend5
+  # backend6:
+  #   <<: *dind-container
+  #   <<: *dind-container-backend
+  #   container_name: backend6
+  # backend7:
+  #   <<: *dind-container
+  #   <<: *dind-container-backend
+  #   container_name: backend7
+  # backend8:
+  #   <<: *dind-container
+  #   <<: *dind-container-backend
+  #   container_name: backend8
