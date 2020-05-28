@@ -1,0 +1,39 @@
+version: "3.4"
+
+services:
+  whoami-tcp:
+    container_name: whoami-tcp
+    image: containous/whoami:v1.5.0
+    ports:
+      - 80 # API
+    labels:
+      SidecarDiscover: true
+      ServiceName: whoami-tcp
+      ProxyMode: tcp
+      ServicePort_80: 9999
+      HealthCheck: HttpGet
+      HealthCheckArgs: http://{{ host }}:{{ tcp 9999 }}/health
+
+  whoami-http-one:
+    container_name: whoami-http-one
+    image: containous/whoami:v1.5.0
+    ports:
+      - 80 # API
+    labels:
+      SidecarDiscover: true
+      ServiceName: whoami-http-one
+      ServicePort_80: 10001
+      HealthCheck: HttpGet
+      HealthCheckArgs: http://{{ host }}:{{ tcp 10001 }}/health
+
+  whoami-http-two:
+    container_name: whoami-http-two
+    image: containous/whoami:v1.5.0
+    ports:
+      - 80 # API
+    labels:
+      SidecarDiscover: true
+      ServiceName: whoami-http-two
+      ServicePort_80: 10002
+      HealthCheck: HttpGet
+      HealthCheckArgs: http://{{ host }}:{{ tcp 10002 }}/health

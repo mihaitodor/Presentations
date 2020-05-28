@@ -1,0 +1,65 @@
+version: "3.4"
+
+services:
+  sidecar:
+    container_name: sidecar
+    # Use a custom release of Sidecar, because gonitro/sidecar doesn't have a
+    # release for https://github.com/Nitro/sidecar/pull/52 yet
+    image: mihaitodor/sidecar:8485b1b
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
+    ports: # For documentation purposes
+      - 7777 # Admin UI
+      - 7946 # Memberlist port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      SidecarDiscover: "false"
+    environment:
+      # Use localhost as the default if no seed is injected at runtime via
+      # ${SIDECAR_SEEDS}
+      SIDECAR_SEEDS: ${SIDECAR_SEEDS:-127.0.0.1}
+      SIDECAR_CLUSTER_NAME: dev
+      # Exclude both the Sidecar internal loopback interface and the Docker
+      # internal IPs
+      SIDECAR_EXCLUDE_IPS: "192.168.168.168"
+      # We inject the advertise IP to prevent Sidecar from trying to determine
+      # it automatically because the code in sidecar/addresses.go keeps getting
+      # confused due to Docker adding various "br-xxx" interfaces automagically.
+      # Details here: https://github.com/moby/moby/issues/37823#issuecomment-421186655
+      SIDECAR_ADVERTISE_IP: ${ADVERTISE_IP:-}
+      HAPROXY_DISABLE: "true"
+      # Needs to be set because Sidecar's run script doesn't look at ENVOY_BIND_IP
+      # TODO: Fix this...
+      HAPROXY_BIND_IP: "192.168.168.168"
+      ENVOY_GRPC_PORT: 7776
+      ENVOY_BIND_IP: "192.168.168.168"
+
+  envoy:
+    container_name: envoy
+    # This was the version I used when I tested https://github.com/Nitro/sidecar/pull/52
+    image: envoyproxy/envoy:v1.12.2
+    command: --service-cluster dev --service-node ${HOSTNAME:?HOSTNAME not set} --config-path /etc/envoy/${ENVOY_CONFIG:?ENVOY_CONFIG not set}
+    network_mode: host
+    ports: # For documentation purposes
+      - 9901 # Admin UI
+    volumes:
+      - /etc/envoy:/etc/envoy
+    labels:
+      SidecarDiscover: "false"
+
+  envoy-ui:
+    container_name: envoy-ui
+    image: gonitro/envoy-ui:42bae1c
+    # Hack: Run this in host networking mode to avoid injecting the parent
+    # container IP via some env var
+    network_mode: host
+    ports: # For documentation purposes
+      - 7778 # UI
+    labels:
+      SidecarDiscover: "false"
+    environment:
+      ENVOY_UI_HOST: localhost
+      ENVOY_UI_PORT: 9901
+      ENVOY_UI_LISTEN_PORT: 7778
