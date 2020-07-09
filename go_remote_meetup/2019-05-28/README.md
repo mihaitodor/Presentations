@@ -1,4 +1,1 @@
-# Integrating the Envoy gRPC API into a Dynamic Service Discovery Platform
-https://www.meetup.com/Go-Remote-Meetup/events/270632499/
-
-Video recording: https://youtu.be/tTaFcZVqbbY
+# Content moved [here](../2020-05-28)
