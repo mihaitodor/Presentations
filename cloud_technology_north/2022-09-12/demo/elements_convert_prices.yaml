@@ -1,0 +1,64 @@
+# Convert element prices from USD to EUR using https://apilayer.com/marketplace/exchangerates_data-api
+# This API has some stringent rate limits: https://apilayer.com/marketplace/exchangerates_data-api#rate-limits
+
+input:
+  file:
+    paths:
+      - fictional_elements_prices_usd.csv
+    codec: csv
+
+  processors:
+    - branch:
+        # Store the value of the `Date` field in the metadata and clear the current message inside this branch
+        request_map: |
+          meta date = this.Date
+          root = ""
+        processors:
+          # Try to fetch the exchange rate for the given date from the cache
+          - cache:
+              resource: rate_cache
+              operator: get
+              key: ${! meta("date") }
+          - catch:
+              # No cached exchange rate found for the given date, so we fetch it from apilayer.com
+              # Example: curl -H "apikey: GwUCz2jQjyveMtXSPS277s7Ylsk4ca47" "https://api.apilayer.com/exchangerates_data/2022-09-11?symbols=EUR&base=USD"
+              - http:
+                  url: 'https://api.apilayer.com/exchangerates_data/${! meta("date") }?symbols=EUR&base=USD'
+                  verb: GET
+                  headers:
+                    apikey: GwUCz2jQjyveMtXSPS277s7Ylsk4ca47
+                  retries: 1
+
+              # Extract exchange rate from HTTP response payload
+              - mapping: root = this.rates.EUR
+
+              # Cache exchange rate for the given date
+              - cache:
+                  resource: rate_cache
+                  operator: add
+                  key: ${! meta("date") }
+                  value: ${! content() }
+
+        # Set the exchange rate in the `Rate` field of the current message
+        result_map: |
+          root.Rate = content().string()
+
+    # Convert to CSV
+    - mapping: |
+        # Create a header prefix for our output only on the first row
+        let header = if count("rows_in_file") == 1 {
+          ["Name", "Date", "Price (USD)", "Price (EUR)", "Rate"].join(",") + "\n"
+        } else { "" }
+
+        let priceEUR = "%.2f".format(this.Price.number() * this.Rate.number())
+
+        root = $header + "\"" + [this.Name, this.Date, this.Price, $priceEUR.string(), this.Rate].join("\",\"") + "\""
+
+output:
+  file:
+    path: fictional_elements_prices_converted.csv
+
+cache_resources:
+  - label: rate_cache
+    memory:
+      compaction_interval: ""

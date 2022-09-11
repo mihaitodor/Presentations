@@ -1,0 +1,33 @@
+# Generate random prices for fictional elements
+# Elements sourced from: https://en.wikipedia.org/wiki/List_of_fictional_elements,_materials,_isotopes_and_subatomic_particles
+
+input:
+  file:
+    paths:
+      - fictional_elements.csv
+    codec: csv
+
+  processors:
+    # Generate random prices for the past 5 years into a 5 element JSON array
+    - mapping: |
+        root = [2018, 2019, 2020, 2021, 2022].map_each(x -> {
+          "name": this.Name,
+          "date": x.string() + "-01-01",
+          "price": random_int() % 100000 / 100
+        })
+
+    # Convert to CSV
+    - mapping: |
+        # Create a header prefix for our output only on the first row
+        let header = if count("rows_in_file") == 1 {
+          ["Name", "Date", "Price"].join(",") + "\n"
+        } else { "" }
+
+        # Expand the JSON array into 5 CSV rows
+        let rows = this.map_each(v -> "\"" + [v.name, v.date, v.price.string()].join("\",\"") + "\"").join("\n")
+
+        root = $header + $rows
+
+output:
+  file:
+    path: fictional_elements_prices_usd.csv

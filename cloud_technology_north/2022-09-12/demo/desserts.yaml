@@ -1,0 +1,8 @@
+# HTTP client example using https://random-data-api.com/
+
+input:
+  http_client:
+    url: https://random-data-api.com/api/dessert/random_dessert
+
+output:
+  stdout: {}

@@ -1,0 +1,24 @@
+# HTTP client example using https://random-data-api.com/
+
+input:
+  http_client:
+    url: https://random-data-api.com/api/dessert/random_dessert
+    # Allow at most one request per second
+    rate_limit: test_limit
+
+  processors:
+    # Convert all string values to upper case
+    - mapping: |
+        root = this.map_each(v -> match v.value {
+          this.type() == "string" => this.uppercase()
+          _ => this
+        })
+
+output:
+  stdout: {}
+
+rate_limit_resources:
+  - label: test_limit
+    local:
+      count: 1
+      interval: 1s
