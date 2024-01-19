@@ -1,0 +1,59 @@
+input:
+  kafka_franz:
+    seed_brokers:
+      - localhost:9092
+    topics:
+      - benthos
+    consumer_group: benthos
+    client_id: benthos
+    checkpoint_limit: 1024
+    start_from_oldest: true
+
+output:
+  sql_insert:
+    driver: postgres
+    dsn: postgres://testuser:testpass@localhost:5432/testdb?sslmode=disable
+    table: users
+    columns:
+      - id
+      - department
+      - name
+      - email
+      - timestamp
+    args_mapping: |
+      root = [
+        this.id,
+        this.department,
+        this.name,
+        this.email,
+        this.timestamp
+      ]
+    max_in_flight: 1
+    init_statement: |
+      CREATE TABLE IF NOT EXISTS users (
+        id varchar(50) not null,
+        department varchar(50) not null,
+        name varchar(50) not null,
+        email varchar(50) not null,
+        timestamp integer
+      );
+
+    batching:
+      count: 50
+      period: 3s
+      processors:
+        - mapping: |
+            meta batch_size = batch_size()
+        - switch:
+            - check: batch_index() == 0
+              processors:
+                - log:
+                    message: |
+                      Writing batch ${! count("batches") } of size ${! @batch_size }
+
+metrics:
+  json_api: {}
+
+http:
+  address: 0.0.0.0:4196
+shutdown_timeout: 3s

@@ -1,0 +1,57 @@
+input:
+  http_server:
+    path: /api
+    allowed_verbs:
+      - GET
+      - POST
+    timeout: 5s
+
+output:
+  switch:
+    cases:
+      - check: |
+          #!blobl
+
+          @http_server_verb == "POST"
+        output:
+          kafka_franz:
+            seed_brokers:
+              - localhost:9092
+            topic: "benthos"
+            max_in_flight: 1
+
+          processors:
+            - log:
+                message: |
+                  Writing message: ${! json() }
+
+      - check: |
+          #!blobl
+
+          @http_server_verb == "GET"
+        output:
+          sync_response: {}
+          processors:
+            - log:
+                message: |
+                  Selecting all users from department '${! @department }'
+
+            - sql_select:
+                driver: postgres
+                dsn: postgres://testuser:testpass@localhost:5432/testdb?sslmode=disable
+                table: users
+                columns:
+                  - id
+                  - department
+                  - name
+                  - email
+                  - timestamp
+                where: department = ?
+                args_mapping: root = [ @department ]
+
+metrics:
+  json_api: {}
+
+http:
+  address: 0.0.0.0:4195
+shutdown_timeout: 3s

@@ -1,0 +1,27 @@
+input:
+  generate:
+    mapping: |
+      #!blobl
+
+      let departments = ["engineering", "legal", "marketing", "product", "sales"]
+
+      root.id = uuid_v4()
+      root.department = $departments.index(random_int(seed:timestamp_unix_nano()) % $departments.length())
+      root.name = fake("name")
+      root.email = fake("email")
+      root.timestamp = timestamp_unix()
+    count: 1
+    interval: 0s
+
+  processors:
+    - log:
+        message: |
+          Generated message: ${! json() }
+
+output:
+  http_client:
+    url: http://localhost:4195/api
+    verb: POST
+
+http:
+  enabled: false
